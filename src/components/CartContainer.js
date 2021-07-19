@@ -5,7 +5,6 @@ import CartItem from './CartItem'
 const CartContainer = ()=> {
   const {cart, total, emptyCart} = useContext(AppContext)
 
-  console.log(cart, 'from CartContainer')
   if(cart.length===0) {
     return (
       <section>
@@ -29,6 +28,7 @@ const CartContainer = ()=> {
         })}
       </div>
       <hr/>
+
       <footer>
         <div className="cart-total">
           <h4>total<span> ${total}</span></h4>
@@ -40,6 +40,7 @@ const CartContainer = ()=> {
           Empty cart
         </button>
       </footer>
+
     </section>
   )
 }
