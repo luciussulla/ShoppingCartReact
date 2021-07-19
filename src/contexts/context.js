@@ -29,6 +29,15 @@ const reducer = (state, action)=> {
         return cartItem
       })
       return {...state, cart: newTempCart}
+    case "INCREASE": 
+      console.log("increase called")
+      let tempCart = state.cart.map(cartItem=> {
+        if(cartItem.id===action.payload) {
+          return {...cartItem, amount: cartItem.amount+1}
+        } 
+        return cartItem
+      })  
+      return {...state, cart: tempCart}
     default: 
       return state  
   }
@@ -65,7 +74,7 @@ const AppProvider = ({children}) => {
   }
 
   useEffect(()=> {
-    
+      console.log("use effect called on state change")
   }, [state])
 
   return (
