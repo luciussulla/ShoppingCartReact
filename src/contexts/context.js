@@ -17,7 +17,6 @@ const reducer = (state, action)=> {
       return {...state, cart: newcart}
     case "DECREASE": 
       console.log("decrease called")
-      
       let newTempCart = state.cart.map(cartItem=> {
         if(cartItem.id===action.payload) {
           if(cartItem.amount ===0) {
@@ -38,6 +37,10 @@ const reducer = (state, action)=> {
         return cartItem
       })  
       return {...state, cart: tempCart}
+    case "UPDATE_AMOUNT": 
+      console.log("Update amount called")
+      const updatedAmount = Number(action.payload)
+      return {...state, amount: action.payload.amount, total: action.payload.total}  
     default: 
       return state  
   }
@@ -72,10 +75,20 @@ const AppProvider = ({children}) => {
   const decrease = (id) => {
     dispatch({type: "DECREASE", payload: id})
   }
-
+  
   useEffect(()=> {
       console.log("use effect called on state change")
-  }, [state])
+      // calculate the amount values for every cart item and put in into state's amount to ilustrate number if items in cart
+      // calculate the total price using reduce and multiplying the amount by price. Save it as state's total
+      const amount = state.cart.reduce((prev, cartItem)=> {
+                        return prev + cartItem.amount
+                    },0)
+      const total = state.cart.reduce((prev, cartItem)=> {
+                        return prev + (cartItem.amount*cartItem.price)
+      }, 0)
+      dispatch({type: "UPDATE_AMOUNT", payload: {amount, total}})
+
+  }, [state.cart])
 
   return (
     <AppContext.Provider
